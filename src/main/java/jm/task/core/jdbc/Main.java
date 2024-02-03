@@ -3,17 +3,12 @@ package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
-import jm.task.core.jdbc.util.Util;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        User u = new User("Alice", "Smith", (byte) 25);
 
         List<User> users = new ArrayList<>(List.of(
                 new User("Alice", "Smith", (byte) 25),
@@ -25,7 +20,10 @@ public class Main {
 
         UserServiceImpl service = new UserServiceImpl();
         service.createUsersTable();
-        service.saveUser(u.getName(), u.getLastName(), (byte) u.getAge());
+        users.forEach(x -> service.saveUser(x.getName(), x.getLastName(), x.getAge()));
         service.getAllUsers().forEach(System.out::println);
+        service.removeUserById(2L);
+        service.cleanUsersTable();
+        service.dropUsersTable();
     }
 }
