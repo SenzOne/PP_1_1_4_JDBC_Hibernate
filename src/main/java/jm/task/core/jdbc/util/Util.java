@@ -1,7 +1,9 @@
 package jm.task.core.jdbc.util;
 
 
+import jm.task.core.jdbc.model.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,6 +17,19 @@ public class Util {
 
 
     public static SessionFactory getSessionFactory() {
+        Configuration configuration = getConfiguration();
+
+        configuration.addAnnotatedClass(User.class);
+        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
+
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties())
+                .build();
+
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    private static Configuration getConfiguration() {
         Configuration configuration = new Configuration();
 
         configuration.setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
@@ -26,12 +41,7 @@ public class Util {
 
         configuration.setProperty(Environment.SHOW_SQL, "true");
         configuration.setProperty(Environment.FORMAT_SQL, "true");
-
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties())
-                .build();
-
-        return configuration.buildSessionFactory(serviceRegistry);
+        return configuration;
     }
 
 }
