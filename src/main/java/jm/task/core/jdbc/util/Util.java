@@ -16,19 +16,6 @@ public class Util {
     private static final String URL = "jdbc:mysql://localhost:3306/JDBC_Hibernate";
 
 
-    public static SessionFactory getSessionFactory() {
-        Configuration configuration = getConfiguration();
-
-        configuration.addAnnotatedClass(User.class);
-        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
-
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties())
-                .build();
-
-        return configuration.buildSessionFactory(serviceRegistry);
-    }
-
     private static Configuration getConfiguration() {
         Configuration configuration = new Configuration();
 
@@ -44,5 +31,16 @@ public class Util {
         return configuration;
     }
 
-}
+    public static SessionFactory getSessionFactory() {
+        Configuration configuration = getConfiguration();
 
+        configuration.addAnnotatedClass(User.class);
+        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
+
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties())
+                .build();
+
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
+}
