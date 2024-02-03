@@ -28,7 +28,6 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery(sql)
                     .executeUpdate();
             transaction.commit();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +54,6 @@ public class UserDaoHibernateImpl implements UserDao {
             user.setAge(age);
             session.save(user);
             transaction.commit();
-            System.out.println("ОК");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,9 +74,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> usersList = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            usersList = session.createQuery("FROM User").getResultList();
-            session.getTransaction().commit();
+            Transaction transaction = session.beginTransaction();
+            usersList = session.createQuery("SELECT u FROM User u", User.class).list();
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
