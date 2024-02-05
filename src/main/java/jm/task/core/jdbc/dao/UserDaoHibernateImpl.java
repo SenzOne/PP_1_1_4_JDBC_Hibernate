@@ -10,8 +10,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    private final static String CREATE_USERS_QUERY =
-            "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(25), last_name VARCHAR(25), age SMALLINT)";
+    private final static String CREATE_USERS_QUERY = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(25), last_name VARCHAR(25), age SMALLINT)";
     private final static String DROP_USERS_TABLE_QUERY = "DROP TABLE IF EXISTS users";
     private final static String CLEAN_USERS_TABLE_QUERY = "TRUNCATE TABLE users";
 
@@ -23,10 +22,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
     private void sqlFunction(String sql) {
         try (Session session = sessionFactory.openSession()) {
-
             Transaction transaction = session.beginTransaction();
-            session.createSQLQuery(sql)
-                    .executeUpdate();
+            session.createSQLQuery(sql).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +43,6 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         try (Session session = sessionFactory.openSession()) {
-
             Transaction transaction = session.beginTransaction();
             User user = new User();
             user.setName(name);
@@ -73,10 +69,10 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> usersList = null;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.openSession()) {//todo: просьба изучить где (в каких методах) неоходимо искользовать Transaction, термин - идемпотентность
+//            Transaction transaction = session.beginTransaction();
             usersList = session.createQuery("SELECT u FROM User u", User.class).list();
-            transaction.commit();
+//            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

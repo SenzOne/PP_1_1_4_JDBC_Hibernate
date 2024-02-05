@@ -21,8 +21,9 @@ public class Main {
         UserServiceImpl service = new UserServiceImpl();
         service.createUsersTable();
         users.forEach(x -> service.saveUser(x.getName(), x.getLastName(), x.getAge()));
-        service.getAllUsers().forEach(System.out::println);
         service.removeUserById(2L);
+        System.out.println("----------------------------");
+        service.getAllUsers().forEach(System.out::println);
         service.cleanUsersTable();
         service.dropUsersTable();
     }

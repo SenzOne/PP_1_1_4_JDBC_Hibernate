@@ -26,7 +26,7 @@ public class Util {
         configuration.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
 
 
-        configuration.setProperty(Environment.SHOW_SQL, "true");
+        configuration.setProperty(Environment.SHOW_SQL, "false");
         configuration.setProperty(Environment.FORMAT_SQL, "true");
         return configuration;
     }
